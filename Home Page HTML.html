@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarvestHub</title>
+</head>
+<body>
+    <DOCTYPE html>
+
+        <html>
+        
+            <head>
+        
+            <meta charset="utf-8">
+        
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+            <!--==Title==================================-->
+            <title>
+        
+                HarvestHub
+        
+            </title>
+        
+            <!--==Stylesheet=============================-->
+            <link rel="stylesheet" type="text/css" href="Home Page CSS.css">
+        
+            <!--==Fav-icon===============================-->
+            <!-- <i class="ri-heart-line"></i> -->
+        
+            <!--==Using-Font-Awesome=====================-->
+            <script src="https://kit.fontawesome.com/5471644867.js" crossorigin="anonymous"></script>
+        
+            <script src = 'Home Page JS.js' defer></script>
+                
+           <link rel="shortcut icon" type="image/jpg" href="C:\Users\hp\Desktop\College\First Semester\Introduction To Web Technologies\Notepad ++ Files\Project\favicon.ico"/>
+           <link
+           href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+           rel="stylesheet"/>
+         
+        
+            <body>
+                <div id="google_translate_element"></div>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <script>
+                function googleTranslateElementInit(){
+                new google.translate. TranslateElement(
+                {pageLanguage: 'en'},
+                'google_translate_element'
+                );
+                }
+                
+                </script>
+        <div id="cursor"></div>
+        <div id="cursor-blur"></div>
+                <!--==Navigation================================-->
+                <nav class="navigation">
+        
+                    <!--logo-------->
+                    <a href="#" class="logo">
+        
+                        <span>Harvest</span>Hub
+        
+                    </a>
+        
+                    <!--menu-btn---->
+                    <input type="checkbox" class="menu-btn" id="menu-btn">
+        
+                    <label for="menu-btn" class="menu-icon">
+        
+                        <span class="nav-icon"></span>
+        
+                    </label>
+        
+                    <!--menu-------->
+                    <ul class="menu">
+        
+                        <li>
+                            <a href="Home Page HTML.html" class="active">
+                                
+                                Home
+        
+                            </a>
+                        
+                        </li>
+        
+                        <li>
+        
+                            <a href="#category">
+        
+                                Categories
+                            
+                            </a>
+                        
+                        </li>
+        
+                        <li>
+                            
+                            <a href="Login And Registration HTML.html">
+                                    
+                                Sign&nbsp;up
+                                
+                            </a>
+                            
+                        </li>
+                        <li>
+                        <a href="Form.html">
+                            Sell your own
+                        </a>
+                    </li>
+                        
+                        <li>
+                            
+                            <a href="Login And Registration HTML.html">
+                                
+                                Login
+                            
+                            </a>
+                        
+                        </li>
+        
+                        </ul>
+        
+                    <!--right-nav-(cart-like)-->
+                    <div class="right-nav">
+        
+                        <!--like----->
+                        <a href="Wishlist HTML.html" class="like">
+        
+                            <i class="ri-heart-line"></i>
+        
+                            <span>
+                                
+                                2
+                            
+                            </span>
+        
+                        </a>
+        
+                        <!--cart----->
+                        <a href="Shopping Cart HTML.html" class="cart">
+        
+                            <i class="ri-shopping-cart-2-line"></i>
+        
+                            <span>
+                                
+                                2
+                            
+                            </span>
+        
+                        </a>
+        
+                        <!--cart----->
+                        <a href="Profile HTML.html" class="user-profile">
+        
+                            <i class="ri-user-line"></i>
+        
+                            <span>
+        
+                                1
+        
+                            </span>
+        
+                        </a>
+        
+                    </div>
+        
+                </nav>
+        
+                <!--nav-end--------------------->
+                <!--==Search-banner=======================================-->
+                <section id="search-banner">
+        
+                    <!--bg--------->
+                    <!-- <img alt="bg" class="bg-1" src="toma.png">
+        
+                    <img alt="bg" class="bg-1_rev" src="toma.png">
+        
+                    <img alt="bg-2" class="bg-2" src="1327330.png"> -->
+        
+                    <!--text------->
+                    <div class="search-banner-text">
+        
+                        <h1>
+                            
+                            Spice up your shopping with authentic Indian groceries!<i class="ri-heart-fill" style="color: red;margin-left: 10px;"></i>
+                        </h1>
+        
+                        <div class="search-banner-subtext">
+                            <strong>
+                                <span style="color: orange;text-shadow: 2px 2px 8px black;">Shu</span>
+                                <span style="color: white;text-shadow: 2px 2px 8px black;">dh</span>
+                                <span style="color: rgb(7, 253, 7);text-shadow: 2px 2px 8px black;">desi</span>
+                            </strong>
+                        </div>
+                        
+        
+                        <!--search-box------>
+                        <form action="" class="search-box">
+        
+                            <!--icon------>
+                            <i class="fas fa-search"></i>
+        
+                            <!--input----->
+                            <input type="text" class="search-input" placeholder="Search" name="search" size = "80px" required>
+        
+                            <!--btn------->
+                            <input type="submit" class="search-btn" value="Search">
+        
+                        </form>
+        
+                        <br>
+        
+                        <h3>
+        
+                            <a href = 'Best Deals HTML.html' style = 'color: #40aa54'>
+        
+                               
+        
+                            </a>
+        
+                        </h3>
+        
+                    </div>
+        
+                </section>
+        
+                <!--search-banner-end--------------->
+                <div class = 'sale-heading' >
+                    <h2  id="maha" >
+        
+                    Maharashtra Day Sale  <i class="ri-flag-fill" style="color: rgb(255, 115, 0);"></i>
+        
+                    </h2></div>
+                
+                <h2 id="LIVE">LIVE IN </i></h2>
+        
+                <div class="countdown-container" >
+        
+                    <div class="countdown-el days-c">
+                        <p class="big-text" id="days">0</p>
+                        <span>Days</span>
+                    </div>
+                    <div class="countdown-el hours-c">
+                        <p class="big-text" id="hours">0</p>
+                        <span>Hours</span>
+                    </div>
+                    <div class="countdown-el mins-c">
+                        <p class="big-text" id="mins">0</p>
+                        <span>Min</span>
+                    </div>
+                    <div class="countdown-el seconds-c">
+                        <p class="big-text" id="seconds">0</p>
+                        <span>Seconds</span>
+                    </div>
+                </div>
+                
+                
+                
+                
+            </div>
+            <div id="container">
+                <div id="ytka">
+                    <iframe id="yt" width="700px" height="450px" style="margin-left: 40px;border: 10px solid rgb(0, 157, 0);box-shadow: 3px 4px  rgb(254, 246, 3);margin-bottom: 20px;" src="https://www.youtube.com/embed/xaExwBJWPQc?si=ThCUx67i-Elb1Xm6" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border: 5px solid green;"></iframe>
+                </div>
+                <div id="yttext">
+                    <h3 style="text-shadow: 2px 3px 2px rgb(209, 178, 0);">"Discovering the Hidden Treasures of Underwater Caves"</h3>
+                    
+                    <p>Embark on an exhilarating journey into the depths of underwater caves with our captivating video exploration. Delve into the mysterious world beneath the surface as we uncover hidden wonders, from mesmerizing rock formations to unique aquatic life. Prepare to be spellbound by the enchanting beauty and tranquility of these underwater realms.</p>
+                <a href="https://pmkisan.gov.in/"><button id="PMK">PM Kisan Portal</button></a>
+                </div>
+            </div>
+        <center>    <hr style="width: 70%;align-items: center ;margin-top: 10px;"></center>
+                <!-- CArsosa -->
+               
+                  
+                     
+                
+                <!--==category=========================================-->
+                <section id="category">
+        
+                    <!--heading---------------->
+                    <div class="category-heading">
+        
+                        <h2>
+                            
+                            Categories
+                        
+                        </h2>
+        
+                        <span>
+                            
+                            All
+                        
+                        </span>
+        
+                    </div>
+        
+                    <!--box-container---------->
+                    <div class="category-container">
+        
+                        <!--box---------------->
+                        <a class="category-box" href = 'Fruits Category Page HTML.html'>
+                            <img alt="Fruits and Vegetables" src="https://domf5oio6qrcr.cloudfront.net/medialibrary/11499/3b360279-8b43-40f3-9b11-604749128187.jpg">
+                            <span>Fruits & <br> Vegetables</span>
+                        </a>
+                        <!--box---------------->
+                        <a class="category-box" href = 'Medicine Category Page HTML.html'>
+                            <img alt="Medicines" src="images/dairy.jpg" style="object-fit: cover;">
+                            <span>Dairy Products</span>
+                        </a>
+                        <!--box---------------->
+                        <a class="category-box" href="Baby Care Category Page HTML.html">
+                            <img alt="Baby Care Products" src="https://www.kelloggs.com/content/dam/Asia/kelloggs_in/images/articles/Goodness-of-grains.jpg">
+                            <span>Grains and Cereals</span>
+                        </a>
+                        <!--box---------------->
+                        <a class="category-box" href = 'Office Category Page HTML.html'>
+                            <img alt="Fish" src="https://ecogardener.com/cdn/shop/articles/Garden_Soil_Amendment_vs_Fertilizer-min.jpg?v=1681188531">
+                            <span>Fertilizers<br> and Soil Amendments</span>
+                        </a>
+                        <!--box---------------->
+                       
+                        <!--box---------------->
+                        <a class="category-box" href = 'Gardening Category Page HTML.html'>
+                            <img alt="Gardening Products" src="https://www.peta.org/wp-content/uploads/2010/07/iStock-StoykoSabotanov-Pesticide.jpg">
+                            <span>Pesticides</span>
+                        </a>
+                    </div>
+                    
+                </section>
+                <!--category-end----------------------------------->
+                <!--==Products====================================-->
+                <section id="popular-product">
+                    <!--heading----------->
+                    <div class="product-heading">
+                        <h3>Popular Products</h3>
+                        <span>All</span>
+                    </div>
+                    <!--box-container------>
+                    <div class="product-container">
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/apple.png">
+                            <strong>Apple</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 100</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="chili" src="images/chili.png">
+                            <strong>Chili</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 80</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/onion.png">
+                            <strong>Onion</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 50</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i>Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/patato.png">
+                            <strong>Potato</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 60</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i>Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/garlic.png">
+                            <strong>Garlic</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 50</span>
+                            <!--cart-btn------->
+                            <a href="#" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/tamato.png">
+                            <strong>Tomato</strong>
+                            <span class="quantity">1 KG</span>
+                            <span class="price">Rs. 80</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="ri-shopping-cart-line"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="ri-heart-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <!--popular-product-end--------------------->
+                <!--Popular-bundle-pack===================================-->
+                <section id="popular-bundle-pack">
+                    <!--heading-------------->
+                    <div class="product-heading">
+                        <h3>Popular Bundle Pack</h3>
+                    </div>
+                    <!--box-container------>
+                    <div class="product-container">
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="pack" src="images/pack1.png">
+                            <strong>Big Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato,+4</span>
+                            <span class="price">Rs. 500</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/pack2.jpg">
+                            <strong>Large Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato,+2</span>
+                            <span class="price">Rs. 800</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/pack3.png">
+                            <strong>Small Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato</span>
+                            <span class="price">Rs. 300</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="pack" src="images/pack1.png">
+                            <strong>Big Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato,+4</span>
+                            <span class="price">Rs. 900</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/pack2.jpg">
+                            <strong>Large Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato,+2</span>
+                            <span class="price">Rs. 700</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                        <!--box---------->
+                        <div class="product-box">
+                            <img alt="apple" src="images/pack3.png" >
+                            <strong>Small Pack</strong>
+                            <span class="quantity">Lemon, Tomato, Potato</span>
+                            <span class="price">Rs. 400</span>
+                            <!--cart-btn------->
+                            <a href="Shopping Cart HTML.html" class="cart-btn">
+                                <i class="fas fa-shopping-bag"></i> Add to Cart
+                            </a>
+                            <!--like-btn------->
+                            <a class="like-btn">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <!--popular-bundle-pack-end-------------------------------->
+                <!--==Clients===============================================-->
+                <section id="clients">
+                    <!--heading---------------->
+                    <div class="client-heading">
+                        <h3>What Our Clients Say</h3>
+                    </div>
+                    <!--box-container---------->
+                    <div class="client-box-container">
+                        <!--box------------->
+                        <div class="client-box">
+                            <!--==profile===-->
+                            <div class="client-profile">
+                                <!--img--->
+                                <img alt="client" src="images/client-1.jpg">
+                                <!--text-->
+                                <div class="profile-text">
+                                    <strong>James Mcavoy</strong>
+                                    <span>CEO</span>
+                                </div>
+                            </div>
+                            <!--==Rating======-->
+                            <div class="rating">
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                            </div>
+                            <!--==comments===-->
+                            <p class="clientp">Chitkara Grocery Store is the best. CGS never fails to dissapoint me. Grocery shopping has become so easy with Chitkara Grocery Store.</Str></p>
+                        </div>
+                        <!--box------------->
+                        <div class="client-box">
+                            <!--==profile===-->
+                            <div class="client-profile">
+                                <!--img--->
+                                <img alt="client" src="images/client-2.jpg">
+                                <!--text-->
+                                <div class="profile-text">
+                                    <strong>Sameer Sharma</strong>
+                                    <span>Software Developer</span>
+                                </div>
+                            </div>
+                            <!--==Rating======-->
+                            <div class="rating">
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                            </div>
+                            <!--==comments===-->
+                            <p class="clientp">Chitkara Grocery Store is just amazing. I can buy all my groceries from a single place. The groceries are available at very affordable prices. And, the groceries are delivered at the time slot you choose and prefer.</p>
+                        </div>
+                        <!--box------------->
+                        <div class="client-box">
+                            <!--==profile===-->
+                            <div class="client-profile">
+                                <!--img--->
+                                <img alt="client" src="images/client-3.jpg">
+                                <!--text-->
+                                <div class="profile-text">
+                                    <strong>Ava Alex</strong>
+                                    <span>Marketer</span>
+                                </div>
+                            </div>
+                            <!--==Rating======-->
+                            <div class="rating">
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                                <i class="ri-shining-line"></i>
+                            </div>
+                            <!--==comments===-->
+                            <p class="clientp">At Chitkara Grocery Store, you can get fresh fruits and vegetables. And it is not only about fruits or vegetables, you can buy all kinds of stuff here.</p>
+                        </div>
+                    </div>
+                </section>
+                <!--client-section-end---------->
+                <!--==Partnre-logo================================-->
+                <section id="partner">
+                    <!--heading------------>
+                    <div class="partner-heading">
+                        <h3>Our Trusted Partner</h3>
+                    </div>
+                    <!--logo-container----->
+                    <div class="logo-container">
+                        <img alt="logo" src="images/PANDHARIKAR FARMS.png">
+                        <img alt="logo" src="images/PAtole FARMS.png">
+                        <img alt="logo" src="images/NAik FARMS.png">
+                        <img alt="logo" src="images/PARAB FARMS.png">
+                    </div>
+                </section>
+                <!--logo-section-end--------------------->
+                
+
+                <!--==Footer=============================================-->
+                <footer>
+                    <div class="footer-container">
+                        <!--logo-container------>
+                        <div class="footer-logo">
+                            <a href="file:///C:/Users/RAGHAV/Desktop/Coding/Grocery/Logo.png"><span>Harvest</span>Hub</a>
+                            <!--social----->
+                            <div class="footer-social">
+                                <a href="https://www.facebook.com/"><i class="ri-facebook-box-fill"></i></a>
+                                <a href="https://twitter.com/?lang=en-in"><i class="ri-twitter-x-line"></i></a>
+                                <a href="https://www.instagram.com/"><i class="ri-instagram-line"></i></a>
+                                <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i> </a>
+                            </div>
+                        </div>
+                        <!--links------------------------->
+                    <div class="footer-links">
+                        <strong>Product</strong>
+                        <ul>
+                            <li><a href="#">Grocery</a></li>
+                            <li><a href="#">Packages</a></li>
+                            <li><a href="#">Popular</a></li>
+                            <li><a href="#">New</a></li>
+                        </ul>
+                    </div>
+                   
+                    <div class="footer-links">
+                        <strong>Category</strong>
+                        <ul>
+                            <li><a href="#">Fruits and Vegetables</a></li>
+                            <li><a href="#">Dairy Products</a></li>
+                            <li><a href="#">Grains and Cereals</a></li>
+                            <li><a href="#">Pes</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <strong>Contact</strong>
+                        <ul>
+                            <li><a href="#">Phone : +91 8468845787</a></li>
+                            <li><a href="prasannapandharikar19@gmail.com">Email : harvest_hub@gmail.com</a></li>
+                            <li><a href="#">Cities we serve</a></li>
+                            <li><i class="ri-building-line" style="color: white;margin-right: 2px ;"></i><a href="#">Mumbai</a></li>
+                            <li><i class="ri-building-line" style="color: white;"></i><a href="#">Pune</a></li>
+                            <li><i class="ri-building-line" style="color: white;"></i><a href="#">Banglore</a></li>
+                        </ul>
+                        <br><p style="color: aliceblue;text-align: center;">Copyright ©2024 | All Rights Reserved</p>
+                    </div>
+                    </div>
+                </footer>
+            </body>
+        </html>
+        <script>
+            window.embeddedChatbotConfig = {
+            chatbotId: "BmCOjOr8Sycq3SgwsrAfm",
+            domain: "www.chatbase.co"
+            }
+            </script>
+            <script
+            src="https://www.chatbase.co/embed.min.js"
+            chatbotId="BmCOjOr8Sycq3SgwsrAfm"
+            domain="www.chatbase.co"
+            defer>
+            </script>
+           
+            
+    
+</body>
+</html>

@@ -1,0 +1,126 @@
+.frame {
+    position: relative;
+    width: 1440px;
+    height: 820px;
+  }
+  
+  .frame .overlap-group {
+    position: absolute;
+    width: 1230px;
+    height: 488px;
+    top: 283px;
+    left: 135px;
+  }
+  
+  .frame .div {
+    display: flex;
+    width: 1230px;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: absolute;
+    top: 234px;
+    left: 0;
+  }
+  
+  .frame .feature {
+    display: flex;
+    flex-direction: column;
+    width: 259px;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 18px 58px 16px #0000000f;
+  }
+  
+  .frame .img {
+    position: relative;
+    width: 37px;
+    height: 37px;
+  }
+  
+  .frame .div-2 {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  
+  .frame .the-first {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: "Poppins-Black", Helvetica;
+    font-weight: 900;
+    color: var(--text);
+    font-size: 22px;
+    letter-spacing: 0;
+    line-height: 22px;
+    white-space: nowrap;
+  }
+  
+  .frame .microsoft-patch-mana {
+    position: relative;
+    width: 160px;
+    font-family: "Poppins-Black", Helvetica;
+    font-weight: 900;
+    color: var(--black-40);
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+  
+  .frame .div-3 {
+    display: flex;
+    width: 1230px;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .frame .feature-2 {
+    display: flex;
+    flex-direction: column;
+    width: 259px;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px;
+    position: relative;
+    align-self: stretch;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 18px 58px 16px #0000000f;
+  }
+  
+  .frame .there-are-many-reaso {
+    position: absolute;
+    width: 660px;
+    top: 162px;
+    left: 390px;
+    font-family: "Poppins-Black", Helvetica;
+    font-weight: 900;
+    color: #d000d4;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: 22px;
+  }
+  
+  .frame .your-choice {
+    position: absolute;
+    top: 99px;
+    left: 388px;
+    font-family: var(--menu-font-family);
+    font-weight: var(--menu-font-weight);
+    color: var(--black-80);
+    font-size: var(--menu-font-size);
+    text-align: center;
+    letter-spacing: var(--menu-letter-spacing);
+    line-height: var(--menu-line-height);
+  }
