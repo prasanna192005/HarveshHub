@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Procurement Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --medium-green: #66BB6A;
+            --light-green: #E8F5E9;
+            --accent-yellow: #FFF59D;
+            --accent-blue: #E3F2FD;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #E0E0E0;
+            --background-white: #FFFFFF;
+            --background-light-gray: #F5F7FA;
+        }
+
+        /* --- General Styles --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light-gray);
+            color: var(--text-dark);
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1600px; /* Wider for dashboard elements */
+            margin: 0 auto;
+            background-color: var(--background-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+        }
+        
+        /* --- Main Content & Sidebar Layout --- */
+        .main-content { flex-grow: 1; padding: 1.5rem 2rem; border-right: 1px solid var(--border-color); }
+        .sidebar { width: 380px; flex-shrink: 0; padding: 1.5rem; background-color: #FBFCFD; }
+
+        /* --- NEW: Dashboard Header --- */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .user-greeting h1 { font-size: 1.75rem; font-weight: 600; }
+        .user-greeting p { color: var(--text-light); }
+        .user-actions { display: flex; align-items: center; gap: 1.5rem; }
+        .notification-bell { font-size: 1.5rem; color: var(--text-light); cursor: pointer; position: relative; }
+        .notification-bell .dot {
+            width: 8px; height: 8px; background-color: #E53935;
+            border-radius: 50%; position: absolute; top: 2px; right: 2px;
+        }
+        .btn {
+            background: none; border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-weight: 500; transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background-color: var(--primary-green); color: white; border-color: var(--primary-green);
+        }
+        .btn-primary:hover { background-color: #1B5E20; }
+
+        /* --- NEW: Stats Bar --- */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-item {
+            background: var(--background-light-gray); padding: 1rem; border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .stat-item .label { font-size: 0.9rem; color: var(--text-light); }
+        .stat-item .value { font-size: 1.5rem; font-weight: 600; color: var(--primary-green); }
+        
+        /* --- Calendar Section --- */
+        .calendar-section-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+        }
+        .calendar-nav { display: flex; align-items: center; gap: 1rem; }
+        .calendar-nav h2 { font-size: 1.5rem; font-weight: 600; }
+        .calendar-nav button { background: white; }
+
+        /* --- NEW: Filter Bar --- */
+        .filter-bar {
+            display: flex; gap: 0.75rem; margin-bottom: 1rem;
+        }
+        .filter-toggle {
+            padding: 0.4rem 1rem; border-radius: 16px; font-size: 0.85rem;
+            border: 1px solid var(--border-color); background-color: var(--background-white);
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .filter-toggle.active, .filter-toggle:hover {
+            background-color: var(--light-green); border-color: var(--medium-green); color: var(--primary-green);
+        }
+
+        /* --- Calendar Grid (No major changes) --- */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: var(--border-color); border: 1px solid var(--border-color); }
+        .calendar-header-cell { text-align: center; padding: 0.75rem 0.5rem; font-weight: 600; font-size: 0.9rem; background-color: var(--background-white); color: var(--text-light); }
+        .calendar-day { min-height: 120px; padding: 0.5rem; background-color: var(--background-white); font-size: 0.85rem; position: relative; cursor: pointer; transition: background-color 0.2s; }
+        .calendar-day:hover { background-color: #F5F5F5; }
+        .calendar-day.active-day { background-color: var(--accent-blue); }
+        .calendar-day .day-number { font-weight: 600; margin-bottom: 0.5rem; }
+        .event { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; margin-bottom: 4px; font-weight: 500; }
+        .event.harvest-window { background-color: var(--light-green); color: var(--primary-green); }
+        .event.confirmed-slot { background-color: var(--medium-green); color: white; }
+        .event.pending-request { background-color: var(--accent-yellow); color: #5D4037; }
+        
+        /* --- Sidebar Enhancements --- */
+        .sidebar h3 { font-size: 1.25rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; }
+        .activity-card {
+            background-color: var(--background-white); border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-green); border-radius: 6px; padding: 1rem; margin-bottom: 1rem;
+        }
+        .activity-card.pending { border-left-color: #FFC107; }
+        .activity-card h4 { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+        .activity-card p { font-size: 0.9rem; color: var(--text-light); }
+        .activity-card a { color: var(--primary-green); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        
+        /* --- NEW: Supply Planning Module --- */
+        #supply-planning { margin-top: 2rem; }
+        .demand-item {
+            display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .demand-item:last-child { border-bottom: none; }
+        .demand-item .icon { font-size: 1.2rem; color: var(--primary-green); }
+        .demand-item-info h5 { font-weight: 600; }
+        .demand-item-info p { font-size: 0.85rem; color: var(--text-light); }
+        
+        /* --- NEW: Modal Styles --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); display: flex;
+            justify-content: center; align-items: center;
+            z-index: 1000;
+            /* Hidden by default */
+            display: none;
+        }
+        .modal-content {
+            background-color: white; padding: 2rem; border-radius: 12px;
+            width: 90%; max-width: 500px;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h2 { font-size: 1.5rem; }
+        .modal-header .close-btn { font-size: 1.5rem; cursor: pointer; color: var(--text-light); border: none; background: none; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 0.75rem; border: 1px solid var(--border-color);
+            border-radius: 6px; font-family: 'Poppins', sans-serif;
+        }
+        .modal-actions { margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="user-greeting">
+                    <h1>Welcome Back, Rajesh!</h1>
+                    <p>Here's your schedule and procurement overview.</p>
+                </div>
+                <div class="user-actions">
+                    <div class="notification-bell">
+                        <i class="fa-regular fa-bell"></i>
+                        <div class="dot"></div>
+                    </div>
+                    <button class="btn btn-primary">Request a Pickup</button>
+                </div>
+            </header>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="label">Total Supplied (This Month)</div>
+                    <div class="value">1.2 Tonnes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Quality Score</div>
+                    <div class="value">98% (A+)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">Pending Payments</div>
+                    <div class="value">₹ 15,400</div>
+                </div>
+            </div>
+
+            <div class="calendar-section-header">
+                <div class="calendar-nav">
+                    <button>&lt;</button>
+                    <h2>October 2025</h2>
+                    <button>&gt;</button>
+                </div>
+                <button class="btn">Book Collection Slot</button>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-toggle active">All Events</button>
+                <button class="filter-toggle">Harvest Windows</button>
+                <button class="filter-toggle">Slots & Pickups</button>
+                <button class="filter-toggle">Dispatches</button>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="calendar-header-cell">Sun</div>
+                <div class="calendar-header-cell">Mon</div><div class="calendar-header-cell">Tue</div><div class="calendar-header-cell">Wed</div><div class="calendar-header-cell">Thu</div><div class="calendar-header-cell">Fri</div><div class="calendar-header-cell">Sat</div>
+                <div class="calendar-day other-month"><div class="day-number">28</div></div>
+                <div class="calendar-day other-month"><div class="day-number">29</div></div><div class="calendar-day other-month"><div class="day-number">30</div></div>
+                <div class="calendar-day"><div class="day-number">1</div></div><div class="calendar-day"><div class="day-number">2</div></div><div class="calendar-day"><div class="day-number">3</div></div><div class="calendar-day"><div class="day-number">4</div><div class="event harvest-window">Harvest: Tomato</div></div>
+                <div class="calendar-day"><div class="day-number">5</div><div class="event harvest-window">Harvest: Tomato</div></div>
+                <div class="calendar-day"><div class="day-number">6</div><div class="event harvest-window">Harvest: Tomato</div><div class="event pending-request">Pickup Pending</div></div>
+                <div class="calendar-day"><div class="day-number">7</div><div class="event harvest-window">Harvest: Tomato</div></div>
+                <div class="calendar-day active-day"><div class="day-number">8</div><div class="event harvest-window">Harvest: Tomato</div><div class="event confirmed-slot">Slot: Vashi (10AM)</div></div>
+                <div class="calendar-day"><div class="day-number">9</div><div class="event harvest-window">Harvest: Tomato</div></div>
+                <div class="calendar-day"><div class="day-number">10</div><div class="event confirmed-slot">Dispatch #3451</div></div>
+                <div class="calendar-day"><div class="day-number">11</div></div>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <h3>Agenda for: Wednesday, Oct 8</h3>
+            <div class="activity-card">
+                <h4>Collection Slot Confirmed</h4>
+                <p><i class="fa-regular fa-clock"></i> 10:00 AM - 11:00 AM<br><i class="fa-solid fa-location-dot"></i> Vashi Collection Center</p>
+                <a href="#">View Details &rarr;</a>
+            </div>
+            <div class="activity-card">
+                <h4>Harvest Window Open</h4>
+                <p><i class="fa-solid fa-seedling"></i> Crop: Cherry Tomatoes<br><i class="fa-solid fa-bullseye"></i> Target: Up to 500kg</p>
+                <a href="#">See Quality Specs &rarr;</a>
+            </div>
+
+            <div id="supply-planning">
+                <h3><i class="fa-solid fa-chart-line"></i> Supply Planning</h3>
+                <div class="demand-item">
+                    <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+                    <div class="demand-item-info">
+                        <h5>High Demand: Spinach</h5>
+                        <p>Expected in Week 3 (Oct 20-26)</p>
+                    </div>
+                </div>
+                <div class="demand-item">
+                    <div class="icon"><i class="fa-solid fa-carrot"></i></div>
+                    <div class="demand-item-info">
+                        <h5>Moderate Demand: Carrots</h5>
+                        <p>Expected in Week 4 (Oct 27-31)</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="modal-overlay" id="pickup-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request a Farm Pickup</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="crop-type">Select Crop</label>
+                    <select id="crop-type" name="crop-type">
+                        <option>Tomatoes</option>
+                        <option>Onions</option>
+                        <option>Potatoes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Estimated Quantity (in Kg)</label>
+                    <input type="number" id="quantity" name="quantity" placeholder="e.g., 250">
+                </div>
+                <div class="form-group">
+                    <label for="pickup-date">Preferred Pickup Date</label>
+                    <input type="date" id="pickup-date" name="pickup-date">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

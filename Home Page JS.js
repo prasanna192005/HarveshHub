@@ -13,8 +13,8 @@ document.addEventListener("mousemove",function (dets){
 })
 document.addEventListener("mousemove",function (dets){
     console.log(dets)
-    blur.style.left=dets.x-125+"px"
-    blur.style.top=dets.y-125+"px"
+    blur.style.left=dets.x-45+"px"
+    blur.style.top=dets.y-45+"px"
 })
 function countdown() {
     const newYearsDate = new Date(newYears);

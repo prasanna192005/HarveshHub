@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments & Remittance Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --medium-green: #66BB6A;
+            --light-green: #E8F5E9;
+            --accent-blue: #E3F2FD;
+            --accent-blue-dark: #1565C0;
+            --accent-yellow: #FFF9C4;
+            --accent-yellow-dark: #F9A825;
+            --accent-red: #FFEBEE;
+            --accent-red-dark: #C62828;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #E0E0E0;
+            --background-white: #FFFFFF;
+            --background-light-gray: #F5F7FA;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light-gray);
+            color: var(--text-dark);
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--background-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        /* --- Header --- */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-header h1 { font-size: 2rem; font-weight: 700; }
+        .page-header p { color: var(--text-light); }
+        .btn {
+            background: none; border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-weight: 500; transition: all 0.2s ease;
+        }
+        .btn-primary { background-color: var(--primary-green); color: white; border-color: var(--primary-green); }
+
+        /* --- Summary Cards --- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .summary-card {
+            background-color: var(--background-light-gray);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        .summary-card .label {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 1rem; color: var(--text-light); margin-bottom: 0.5rem;
+        }
+        .summary-card .value {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .summary-card .value.positive { color: var(--primary-green); }
+        .summary-card .value.negative { color: var(--accent-red-dark); }
+        
+        /* --- Filter & Actions Toolbar --- */
+        .toolbar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .search-bar { flex-grow: 1; position: relative; }
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        .toolbar select {
+            padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* --- Payments Table --- */
+        .table-container { overflow-x: auto; /* For mobile responsiveness */ }
+        .payments-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .payments-table th, .payments-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .payments-table thead th {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background-color: var(--background-light-gray);
+        }
+        .payments-table tbody tr:hover { background-color: #F9F9F9; }
+        .payments-table .amount { font-weight: 600; }
+        
+        /* --- Status Pills --- */
+        .status-pill {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        .status-paid { background-color: var(--light-green); color: var(--primary-green); }
+        .status-processing { background-color: var(--accent-blue); color: var(--accent-blue-dark); }
+        .status-due { background-color: var(--accent-yellow); color: var(--accent-yellow-dark); }
+        .status-overdue { background-color: var(--accent-red); color: var(--accent-red-dark); }
+        
+        /* --- Action Link --- */
+        .action-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .action-link i { margin-right: 0.25rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <div>
+                <h1>Payments Tracker</h1>
+                <p>Monitor all your dispatches and their payment statuses.</p>
+            </div>
+            <a href="#" class="btn">Go to Calendar</a>
+        </header>
+
+        <section class="summary-grid">
+            <div class="summary-card">
+                <div class="label"><i class="fa-solid fa-file-invoice-dollar"></i> Total Outstanding</div>
+                <div class="value negative">₹ 42,750</div>
+            </div>
+            <div class="summary-card">
+                <div class="label"><i class="fa-solid fa-hourglass-half"></i> Upcoming Payments</div>
+                <div class="value">₹ 18,500</div>
+            </div>
+            <div class="summary-card">
+                <div class="label"><i class="fa-solid fa-receipt"></i> Last Payment Received</div>
+                <div class="value positive">₹ 9,800</div>
+            </div>
+            <div class="summary-card">
+                <div class="label"><i class="fa-solid fa-chart-pie"></i> Total Paid (YTD)</div>
+                <div class="value">₹ 3,45,600</div>
+            </div>
+        </section>
+
+        <section class="transactions-section">
+            <div class="toolbar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by Dispatch ID...">
+                </div>
+                <select>
+                    <option>All Statuses</option>
+                    <option>Paid</option>
+                    <option>Pending</option>
+                    <option>Overdue</option>
+                </select>
+                <input type="date" class="btn">
+                <button class="btn"><i class="fa-solid fa-file-export"></i> Export</button>
+            </div>
+
+            <div class="table-container">
+                <table class="payments-table">
+                    <thead>
+                        <tr>
+                            <th>Dispatch ID</th>
+                            <th>Date</th>
+                            <th>Details</th>
+                            <th style="text-align: right;">Amount</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#DS-3451</td>
+                            <td>Oct 02, 2025</td>
+                            <td>Tomatoes (Grade A)</td>
+                            <td class="amount" style="text-align: right;">₹ 18,500</td>
+                            <td><span class="status-pill status-due">Due in 5 days</span></td>
+                            <td>Oct 09, 2025</td>
+                            <td><a href="#" class="action-link"><i class="fa-solid fa-download"></i> Receipt</a></td>
+                        </tr>
+                        <tr>
+                            <td>#DS-3449</td>
+                            <td>Sep 28, 2025</td>
+                            <td>Onions</td>
+                            <td class="amount" style="text-align: right;">₹ 24,250</td>
+                            <td><span class="status-pill status-overdue">Overdue</span></td>
+                            <td>Oct 05, 2025</td>
+                            <td><a href="#" class="action-link"><i class="fa-solid fa-download"></i> Receipt</a></td>
+                        </tr>
+                        <tr>
+                            <td>#DS-3445</td>
+                            <td>Sep 25, 2025</td>
+                            <td>Potatoes</td>
+                            <td class="amount" style="text-align: right;">₹ 9,800</td>
+                            <td><span class="status-pill status-paid">Paid</span></td>
+                            <td>Oct 02, 2025</td>
+                            <td><a href="#" class="action-link"><i class="fa-solid fa-download"></i> Receipt</a></td>
+                        </tr>
+                         <tr>
+                            <td>#DS-3442</td>
+                            <td>Sep 22, 2025</td>
+                            <td>Spinach</td>
+                            <td class="amount" style="text-align: right;">₹ 7,500</td>
+                            <td><span class="status-pill status-processing">Processing</span></td>
+                            <td>Sep 29, 2025</td>
+                            <td><a href="#" class="action-link"><i class="fa-solid fa-download"></i> Receipt</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

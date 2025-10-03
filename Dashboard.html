@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> MyFoods</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #FFFFFF;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #4CAF50;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #FFFFFF;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #4CAF50;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #4CAF50;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-trend {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            max-height: 350px; /* Constrain chart height */
+            overflow: hidden;
+        }
+
+        .chart-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card.large {
+            grid-column: span 8;
+        }
+
+        .chart-card.medium {
+            grid-column: span 6;
+        }
+
+        .chart-card.small {
+            grid-column: span 4;
+        }
+
+        .chart-card canvas {
+            max-height: 250px !important; /* Limit canvas height */
+            width: 100% !important;
+        }
+
+        .heatmap-container {
+            width: 100%;
+            height: 300px; /* Reduced height for heatmap */
+            position: relative;
+        }
+
+        .network-graph {
+            width: 100%;
+            height: 300px; /* Reduced height for network graph */
+            background: #F5F5F5;
+            border-radius: 12px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .chart-filter {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            background: #FFFFFF;
+            cursor: pointer;
+            color: #333;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .chart-filter:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .ai-insights {
+            background: #4CAF50;
+            color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-insights h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .insight-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .insight-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #FFFFFF;
+        }
+
+        .alert-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #EF5350;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .predictive-banner {
+            background: #4CAF50;
+            color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .predictive-banner h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .predictive-banner p {
+            font-size: 0.9rem;
+        }
+
+        .action-btn {
+            background: #FFFFFF;
+            color: #4CAF50;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #4CAF50;
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: #FFFFFF;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: #4CAF50;
+            color: #FFFFFF;
+        }
+
+        .tab:hover:not(.active) {
+            background: #F5F5F5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .chart-card.large,
+            .chart-card.medium,
+            .chart-card.small {
+                grid-column: span 12;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .chart-card canvas,
+            .heatmap-container,
+            .network-graph {
+                max-height: 200px !important; /* Smaller height for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <span>🌾</span>
+            MyFoods 
+        </div>
+        <div class="nav-links">
+            <!-- <a href="#" class="nav-link" onclick="switchDashboard('main')">Main Dashboard</a>
+            <a href="#" class="nav-link" onclick="switchDashboard('governance')">Governance</a>
+            <a href="#" class="nav-link" onclick="switchDashboard('finance')">Finance</a>
+            <a href="#" class="nav-link" onclick="switchDashboard('market')">Market Intelligence</a>
+            <a href="#" class="nav-link">AI Advisor</a> -->
+            <a href="#" class="nav-link">👤 Admin</a>
+        </div>
+    </nav>
+    <!-- Farmer Profile Management Section -->
+<div class="container" id="farmer-profile-section" style="display: none;">
+    <h2 class="profile-title">Farmer Profile Management</h2>
+    <div class="dashboard-grid">
+        <!-- Profile Display -->
+        <div class="chart-card large">
+            <div class="chart-header">
+                <h3 class="chart-title">Current Farmer Profile</h3>
+            </div>
+            <div id="profile-display" class="profile-display">
+                <p><strong>Name:</strong> <span id="display-name">John Doe</span></p>
+                <p><strong>ID:</strong> <span id="display-id">MyFoods-001</span></p>
+                <p><strong>Membership Status:</strong> <span id="display-status">Active</span></p>
+                <p><strong>Contribution (₹):</strong> <span id="display-contribution">5000</span></p>
+                <p><strong>Last Updated:</strong> <span id="display-updated">Oct 03, 2025</span></p>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <div class="chart-card medium">
+            <div class="chart-header">
+                <h3 class="chart-title">Edit Farmer Profile</h3>
+            </div>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" value="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="id">Farmer ID:</label>
+                    <input type="text" id="id" value="MyFoods-001" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="status">Membership Status:</label>
+                    <select id="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contribution">Contribution (₹):</label>
+                    <input type="number" id="contribution" value="5000" min="0" required>
+                </div>
+                <button type="submit" class="action-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Farmer Profile Management Logic
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const id = document.getElementById('id').value;
+        const status = document.getElementById('status').value;
+        const contribution = document.getElementById('contribution').value;
+
+        document.getElementById('display-name').textContent = name;
+        document.getElementById('display-id').textContent = id;
+        document.getElementById('display-status').textContent = status;
+        document.getElementById('display-contribution').textContent = contribution;
+        document.getElementById('display-updated').textContent = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+        alert('Profile updated successfully!');
+    });
+
+    // Toggle Farmer Profile Section (can be triggered by a nav link or button)
+    function showFarmerProfile() {
+        document.querySelectorAll('.container').forEach(el => el.style.display = 'none');
+        document.getElementById('farmer-profile-section').style.display = 'block';
+    }
+</script>
+
+<style>
+    .profile-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #4CAF50;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-display {
+        padding: 1rem;
+        background: #F5F5F5;
+        border-radius: 8px;
+    }
+
+    .profile-display p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .profile-display strong {
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #E0E0E0;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-group input[readonly] {
+        background: #F5F5F5;
+        color: #666;
+    }
+</style>
+    <div class="container">
+        <!-- AI Predictive Banner -->
+        <div class="predictive-banner">
+            <div>
+                <h4>🤖 AI Prediction Alert</h4>
+                <p>Based on current trends, 3 MyFoodss require immediate intervention. Market demand for tomatoes expected to rise 34% next quarter.</p>
+            </div>
+            <button class="action-btn">View Recommendations</button>
+        </div>
+
+        <!-- Hero Statistics -->
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-value">247</div>
+                <div class="stat-label">Active MyFoodss</div>
+                <div class="stat-trend">↑ 12% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">₹12.4Cr</div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-trend">↑ 28% growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🌾</div>
+                <div class="stat-value">18,429</div>
+                <div class="stat-label">Farmer Members</div>
+                <div class="stat-trend">↑ 2,341 new members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Health Score</div>
+                <div class="stat-trend">↑ 7% improvement</div>
+            </div>
+        </div>
+
+        <!-- AI Insights Section -->
+        <div class="ai-insights">
+            <h3>🧠 AI-Powered Insights & Recommendations</h3>
+            <div class="insight-list">
+                <div class="insight-item">
+                    <strong>Critical Alert</strong>
+                    <p>MyFoods "Green Valley Farmers" showing 67% probability of financial distress. Recommend immediate working capital injection of ₹8.5L.</p>
+                </div>
+                <div class="insight-item">
+                    <strong>Market Opportunity</strong>
+                    <p>Organic certification demand spike detected. 12 MyFoodss eligible for certification could increase revenue by 45%.</p>
+                </div>
+                <div class="insight-item">
+                    <strong>Quality Alert</strong>
+                    <p>Tomato rejection rates increased 18% in Zone-3. AI recommends training intervention for 142 farmers on post-harvest handling.</p>
+                </div>
+                <div class="insight-item">
+                    <strong>Success Pattern</strong>
+                    <p>MyFoodss with professional CEOs show 3.2x higher sustainability. Recommend CEO placement for 8 identified MyFoodss.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab active" onclick="switchTab(this, 'overview')">Overview</button>
+            <button class="tab" onclick="switchTab(this, 'cascade')">Failure Cascade</button>
+            <button class="tab" onclick="switchTab(this, 'predictive')">Predictive Analytics</button>
+            <button class="tab" onclick="switchTab(this, 'network')">Network Intelligence</button>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Large Chart: MyFoods Health Score Distribution -->
+            <div class="chart-card large overview">
+                <div class="chart-header">
+                    <h3 class="chart-title">MyFoods Health Score Distribution & Trends</h3>
+                    <select class="chart-filter">
+                        <option>Last 6 Months</option>
+                        <option>Last Year</option>
+                        <option>All Time</option>
+                    </select>
+                </div>
+                <canvas id="healthScoreChart"></canvas>
+            </div>
+
+            <!-- Medium Chart: Four Deficit Radar -->
+            <div class="chart-card small overview">
+                <div class="chart-header">
+                    <h3 class="chart-title">Four Deficit Analysis</h3>
+                </div>
+                <canvas id="deficitRadarChart"></canvas>
+            </div>
+
+            <!-- Financial Flow -->
+            <div class="chart-card medium network">
+                <div class="chart-header">
+                    <h3 class="chart-title">Financial Flow Analysis</h3>
+                </div>
+                <canvas id="financialFlowChart"></canvas>
+            </div>
+
+            <!-- Market Performance -->
+            <div class="chart-card medium overview">
+                <div class="chart-header">
+                    <h3 class="chart-title">Market Performance by Crop Type</h3>
+                </div>
+                <canvas id="marketPerformanceChart"></canvas>
+            </div>
+
+            <!-- Governance Heatmap -->
+            <div class="chart-card large cascade">
+                <div class="alert-badge">23 Critical Alerts</div>
+                <div class="chart-header">
+                    <h3 class="chart-title">MyFoods Governance Quality Heatmap</h3>
+                </div>
+                <div id="governanceHeatmap" class="heatmap-container"></div>
+            </div>
+
+            <!-- Intervention Impact -->
+            <div class="chart-card small predictive">
+                <div class="chart-header">
+                    <h3 class="chart-title">Intervention Impact Score</h3>
+                </div>
+                <canvas id="interventionChart"></canvas>
+            </div>
+
+            <!-- Predictive Model -->
+            <div class="chart-card medium cascade predictive">
+                <div class="chart-header">
+                    <h3 class="chart-title">Sustainability Prediction Model</h3>
+                </div>
+                <canvas id="predictionChart"></canvas>
+            </div>
+
+            <!-- Member Engagement -->
+            <div class="chart-card medium overview">
+                <div class="chart-header">
+                    <h3 class="chart-title">Member Engagement & Side-Selling Trends</h3>
+                </div>
+                <canvas id="engagementChart"></canvas>
+            </div>
+
+            <!-- Supply Chain Network -->
+            <div class="chart-card large network">
+                <div class="chart-header">
+                    <h3 class="chart-title">Supply Chain Network Visualization</h3>
+                </div>
+                <div id="networkGraph" class="network-graph"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js default configuration
+        Chart.defaults.font.family = "'Poppins', sans-serif";
+        Chart.defaults.color = '#666';
+
+        // 1. Health Score Distribution Chart
+        const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
+        const healthScoreChart = new Chart(healthScoreCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Average Health Score',
+                    data: [72, 75, 78, 82, 85, 89],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3
+                }, {
+                    label: 'At-Risk MyFoodss (<60)',
+                    data: [45, 42, 38, 35, 28, 23],
+                    borderColor: '#EF5350',
+                    backgroundColor: 'rgba(239, 83, 80, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3
+                }, {
+                    label: 'Thriving MyFoodss (>80)',
+                    data: [89, 95, 108, 125, 142, 168],
+                    borderColor: '#43A047',
+                    backgroundColor: 'rgba(67, 160, 71, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Four Deficit Radar Chart
+        const deficitRadarCtx = document.getElementById('deficitRadarChart').getContext('2d');
+        const deficitRadarChart = new Chart(deficitRadarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Governance', 'Finance', 'Market Access', 'Human Capital'],
+                datasets: [{
+                    label: 'Industry Average',
+                    data: [45, 38, 52, 41],
+                    borderColor: '#B0BEC5',
+                    backgroundColor: 'rgba(176, 190, 197, 0.2)',
+                    borderWidth: 2
+                }, {
+                    label: 'MyFoods MyFoodss',
+                    data: [78, 82, 85, 76],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Changed to false for better size control
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // 3. Financial Flow Chart
+        const financialFlowCtx = document.getElementById('financialFlowChart').getContext('2d');
+        const financialFlowChart = new Chart(financialFlowCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Working Capital', 'Equipment Loans', 'Input Financing', 'Trade Credit'],
+                datasets: [{
+                    label: 'Sanctioned',
+                    data: [8500000, 4200000, 6800000, 3400000],
+                    backgroundColor: '#4CAF50'
+                }, {
+                    label: 'Utilized',
+                    data: [7200000, 3800000, 6200000, 3100000],
+                    backgroundColor: '#43A047'
+                }, {
+                    label: 'Outstanding',
+                    data: [1200000, 800000, 1400000, 600000],
+                    backgroundColor: '#66BB6A'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₹' + (value / 1000000).toFixed(1) + 'M';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. Market Performance Chart
+        const marketPerformanceCtx = document.getElementById('marketPerformanceChart').getContext('2d');
+        const marketPerformanceChart = new Chart(marketPerformanceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tomatoes', 'Potatoes', 'Onions', 'Leafy Greens', 'Others'],
+                datasets: [{
+                    data: [3400000, 2800000, 2100000, 1900000, 2200000],
+                    backgroundColor: ['#4CAF50', '#43A047', '#66BB6A', '#81C784', '#A5D6A7'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ₹' + (context.parsed / 1000000).toFixed(2) + 'M';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 5. Intervention Impact Chart
+        const interventionCtx = document.getElementById('interventionChart').getContext('2d');
+        const interventionChart = new Chart(interventionCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ['CEO Placement', 'Training', 'Tech Integration', 'Credit Access', 'Quality Control'],
+                datasets: [{
+                    data: [92, 78, 85, 88, 81],
+                    backgroundColor: [
+                        'rgba(76, 175, 80, 0.7)',
+                        'rgba(67, 160, 71, 0.7)',
+                        'rgba(129, 199, 132, 0.7)',
+                        'rgba(165, 214, 167, 0.7)',
+                        'rgba(200, 230, 201, 0.7)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // 6. Predictive Model Chart
+        const predictionCtx = document.getElementById('predictionChart').getContext('2d');
+        const predictionChart = new Chart(predictionCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'High Risk',
+                    data: Array.from({length: 30}, () => ({
+                        x: Math.random() * 50,
+                        y: Math.random() * 50
+                    })),
+                    backgroundColor: 'rgba(239, 83, 80, 0.6)',
+                    pointRadius: 6
+                }, {
+                    label: 'Medium Risk',
+                    data: Array.from({length: 80}, () => ({
+                        x: 50 + Math.random() * 30,
+                        y: 50 + Math.random() * 30
+                    })),
+                    backgroundColor: 'rgba(165, 214, 167, 0.6)',
+                    pointRadius: 6
+                }, {
+                    label: 'Low Risk',
+                    data: Array.from({length: 137}, () => ({
+                        x: 70 + Math.random() * 30,
+                        y: 70 + Math.random() * 30
+                    })),
+                    backgroundColor: 'rgba(76, 175, 80, 0.6)',
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Financial Health Score'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Operational Efficiency Score'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 7. Engagement Chart
+        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+        const engagementChart = new Chart(engagementCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                datasets: [{
+                    label: 'Member Participation %',
+                    data: [68, 72, 75, 79, 82, 86],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    yAxisID: 'y',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Side-Selling Incidents',
+                    data: [42, 38, 35, 29, 24, 18],
+                    borderColor: '#EF5350',
+                    backgroundColor: 'rgba(239, 83, 80, 0.1)',
+                    yAxisID: 'y1',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                }
+            }
+        });
+
+        // 8. Governance Heatmap using D3.js
+        function createHeatmap() {
+            const data = [];
+            const MyFoodss = ['MyFoods-A', 'MyFoods-B', 'MyFoods-C', 'MyFoods-D', 'MyFoods-E', 'MyFoods-F', 'MyFoods-G', 'MyFoods-H'];
+            const metrics = ['Board Quality', 'Financial Records', 'Business Plan', 'Compliance', 'Member Trust'];
+
+            MyFoodss.forEach((MyFoods, i) => {
+                metrics.forEach((metric, j) => {
+                    data.push({
+                        MyFoods: MyFoods,
+                        metric: metric,
+                        value: 40 + Math.random() * 60
+                    });
+                });
+            });
+
+            const container = document.getElementById('governanceHeatmap');
+            const width = container.clientWidth;
+            const height = 300; // Reduced height
+            const margin = { top: 50, right: 50, bottom: 50, left: 100 };
+
+            const svg = d3.select('#governanceHeatmap')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .range([0, width - margin.left - margin.right])
+                .domain(metrics)
+                .padding(0.05);
+
+            const y = d3.scaleBand()
+                .range([height - margin.top - margin.bottom, 0])
+                .domain(MyFoodss)
+                .padding(0.05);
+
+            const colorScale = d3.scaleLinear()
+                .range(['#FFFFFF', '#4CAF50'])
+                .domain([0, 100]);
+
+            svg.selectAll()
+                .data(data, d => `${d.MyFoods}:${d.metric}`)
+                .enter()
+                .append('rect')
+                .attr('x', d => x(d.metric))
+                .attr('y', d => y(d.MyFoods))
+                .attr('width', x.bandwidth())
+                .attr('height', y.bandwidth())
+                .style('fill', d => colorScale(d.value))
+                .style('stroke', '#E0E0E0')
+                .style('stroke-width', 1);
+
+            svg.append('g')
+                .attr('transform', `translate(0,${height - margin.top - margin.bottom})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-45)')
+                .style('font-family', 'Poppins, sans-serif')
+                .style('font-size', '12px');
+
+            svg.append('g')
+                .call(d3.axisLeft(y))
+                .selectAll('text')
+                .style('font-family', 'Poppins, sans-serif')
+                .style('font-size', '12px');
+
+            // Color scale legend
+            const legendWidth = 100;
+            const legendHeight = 10;
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width - margin.right - margin.left - legendWidth}, 0)`);
+
+            const legendScale = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, legendWidth]);
+
+            const legendAxis = d3.axisBottom(legendScale)
+                .ticks(5);
+
+            const defs = svg.append('defs');
+            const linearGradient = defs.append('linearGradient')
+                .attr('id', 'legend-gradient')
+                .attr('x1', '0%')
+                .attr('y1', '0%')
+                .attr('x2', '100%')
+                .attr('y2', '0%');
+
+            linearGradient.append('stop')
+                .attr('offset', '0%')
+                .attr('stop-color', '#FFFFFF');
+
+            linearGradient.append('stop')
+                .attr('offset', '100%')
+                .attr('stop-color', '#4CAF50');
+
+            legend.append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', legendWidth)
+                .attr('height', legendHeight)
+                .style('fill', 'url(#legend-gradient)');
+
+            legend.append('g')
+                .attr('transform', `translate(0,${legendHeight})`)
+                .call(legendAxis)
+                .selectAll('text')
+                .style('font-family', 'Poppins, sans-serif')
+                .style('font-size', '10px');
+        }
+
+        // 9. Supply Chain Network Visualization
+        function createNetworkGraph() {
+            const svg = d3.select('#networkGraph')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', '100%');
+
+            const nodes = [
+                { id: 'MyFoods-A', group: 1 },
+                { id: 'MyFoods-B', group: 1 },
+                { id: 'Supplier', group: 2 },
+                { id: 'Market', group: 3 }
+            ];
+            const links = [
+                { source: 'MyFoods-A', target: 'Supplier', value: 10 },
+                { source: 'MyFoods-B', target: 'Supplier', value: 8 },
+                { source: 'Supplier', target: 'Market', value: 15 }
+            ];
+
+            const simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-200))
+                .force('center', d3.forceCenter(300, 150)); // Adjusted for smaller height
+
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(links)
+                .enter()
+                .append('line')
+                .style('stroke', '#4CAF50')
+                .style('stroke-width', 2);
+
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .enter()
+                .append('circle')
+                .attr('r', 10)
+                .style('fill', '#4CAF50')
+                .style('stroke', '#FFFFFF')
+                .style('stroke-width', 2);
+
+            node.append('title')
+                .text(d => d.id);
+
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+            });
+        }
+
+        // Tab Switching Logic
+        function switchTab(element, tabName) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            // Show/hide charts based on tab
+            const charts = document.querySelectorAll('.chart-card');
+            charts.forEach(chart => {
+                chart.classList.add('hidden');
+                if (chart.classList.contains(tabName)) {
+                    chart.classList.remove('hidden');
+                }
+            });
+
+            console.log(`Switched to ${tabName} tab`);
+        }
+
+        // Dashboard Switching (Placeholder)
+        function switchDashboard(dashboardName) {
+            console.log(`Switched to ${dashboardName} dashboard`);
+            // Add dashboard-specific logic here if needed
+        }
+
+        // Initialize Visualizations
+        createHeatmap();
+        createNetworkGraph();
+
+        // Initialize with Overview tab
+        switchTab(document.querySelector('.tab.active'), 'overview');
+    </script>
+</body>
+</html>
