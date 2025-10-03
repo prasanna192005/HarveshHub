@@ -3,7 +3,7 @@ const hoursEl = document.getElementById("hours");
 const minsEl = document.getElementById("mins");
 const secondsEl = document.getElementById("seconds");
 
-const newYears = "1 May 2024"; // Changed date to May 1st, 2024
+const newYears = "20 Oct 2025"; // Changed date to October 20th, 2024
 var cursor=document.querySelector("#cursor")
 var blur=document.querySelector("#cursor-blur")
 document.addEventListener("mousemove",function (dets){

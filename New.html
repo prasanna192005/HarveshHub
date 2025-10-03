@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QMS Grading Form (Horizontal)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --medium-green: #66BB6A;
+            --light-green: #E8F5E9;
+            --accent-blue: #1976D2;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #E0E0E0;
+            --background-white: #FFFFFF;
+            --background-light-gray: #F5F7FA;
+            --grade-a-color: #4CAF50;
+            --grade-b-color: #FB8C00;
+            --grade-c-color: #e53935;
+            --hover-green: #256528;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light-gray);
+            color: var(--text-dark);
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qms-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--background-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .qms-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--light-green);
+        }
+        .qms-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+        .qms-header p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .qms-header .dispatch-id {
+            font-size: 0.95rem;
+            font-weight: 500;
+            background-color: var(--primary-green);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qms-body {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            min-height: 600px;
+        }
+
+        .grading-panel {
+            padding: 2rem;
+        }
+        .summary-panel {
+            padding: 2rem;
+            background-color: var(--background-light-gray);
+            border-left: 1px solid var(--border-color);
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .photo-capture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .photo-uploader {
+            background-color: var(--background-white);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .photo-uploader:hover {
+            border-color: var(--primary-green);
+        }
+        .photo-uploader i {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .photo-uploader span {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .checklist-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+        .checklist-item label {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        .star-rating {
+            direction: rtl;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.25rem;
+        }
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+        .star-rating label {
+            font-size: 1.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #FBC02D;
+        }
+
+        .btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background-color: var(--light-green);
+        }
+        .btn-full {
+            width: 100%;
+        }
+        .btn-confirm {
+            background-color: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+        .btn-confirm:hover {
+            background-color: var(--hover-green);
+            border-color: var(--hover-green);
+        }
+
+        .live-result-card {
+            border: 2px solid var(--grade-a-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+            background-color: #F1F8E9;
+        }
+        .live-result-card .label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        .final-grade {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: 0.5rem 0;
+            color: var(--grade-a-color);
+        }
+        .final-rate {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .info-block {
+            list-style: none;
+            padding: 0;
+        }
+        .info-block li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .info-block li:last-child {
+            border-bottom: none;
+        }
+        .info-block li span:first-child {
+            color: var(--text-light);
+        }
+        .info-block li span:last-child {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .qms-body {
+                grid-template-columns: 1fr;
+            }
+            .summary-panel {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+            .photo-capture-grid {
+                grid-template-columns: 1fr;
+            }
+            .qms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .qms-header .dispatch-id {
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .qms-container {
+                border-radius: 8px;
+            }
+            .grading-panel, .summary-panel {
+                padding: 1.5rem;
+            }
+            .qms-header {
+                padding: 1rem;
+            }
+            .qms-header h1 {
+                font-size: 1.5rem;
+            }
+            .checklist-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .star-rating {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="qms-container">
+        <header class="qms-header">
+            <div>
+                <h1>Quality Assessment</h1>
+                <p>Tomatoes (Grade A)</p>
+            </div>
+            <div class="dispatch-id">
+                <i class="fa-solid fa-barcode"></i> DS-3451
+            </div>
+        </header>
+
+        <div class="qms-body">
+            <div class="grading-panel">
+                <h3 class="panel-title">1. Photo & Checklist Entry</h3>
+                <div class="form-group">
+                    <label>Photo Evidence</label>
+                    <div class="photo-capture-grid">
+                        <div class="photo-uploader"><i class="fa-solid fa-camera"></i><span>Overall Lot</span></div>
+                        <div class="photo-uploader"><i class="fa-solid fa-camera"></i><span>Random Sample</span></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Grading Parameters</label>
+                    <div class="checklist-item">
+                        <label>Color Uniformity</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating"><label for="star5">★</label>
+                            <input type="radio" id="star4" name="rating" checked><label for="star4">★</label>
+                            <input type="radio" id="star3" name="rating"><label for="star3">★</label>
+                            <input type="radio" id="star2" name="rating"><label for="star2">★</label>
+                            <input type="radio" id="star1" name="rating"><label for="star1">★</label>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Firmness</label>
+                        <div class="star-rating">
+                            <input type="radio" id="firm5" name="firmness" checked><label for="firm5">★</label>
+                            <input type="radio" id="firm4" name="firmness"><label for="firm4">★</label>
+                            <input type="radio" id="firm3" name="firmness"><label for="firm3">★</label>
+                            <input type="radio" id="firm2" name="firmness"><label for="firm2">★</label>
+                            <input type="radio" id="firm1" name="firmness"><label for="firm1">★</label>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Defects / Damage (%)</label>
+                        <input type="number" value="4" style="max-width: 100px; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Operator Notes (Optional)</label>
+                    <textarea id="notes" rows="4" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; resize: vertical;"></textarea>
+                </div>
+                <button class="btn btn-confirm btn-full"><i class="fa-solid fa-check"></i> Confirm & Generate GRN</button>
+            </div>
+
+            <div class="summary-panel">
+                <h3 class="panel-title">2. Live Summary</h3>
+                <div class="live-result-card">
+                    <div class="label">Calculated Grade & Price Tier</div>
+                    <div class="final-grade">A+</div>
+                    <div class="final-rate">₹ 98 / kg</div>
+                </div>
+
+                <h3 class="panel-title">Dispatch Information</h3>
+                <ul class="info-block">
+                    <li><span>Farmer Name</span> <span>Rajesh Kumar</span></li>
+                    <li><span>Crop</span> <span>Tomatoes (Grade A)</span></li>
+                    <li><span>Declared Qty</span> <span>200 kg</span></li>
+                    <li><span>Vehicle No.</span> <span>MH 04 AB 1234</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
